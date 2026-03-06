@@ -1,20 +1,37 @@
-let clickCount = 0;
+let score = 0;
+let timeLeft = 10;
+let gameActive = false;
+let timer;
 
-function handleClick() {
+const scoreDisplay = document.getElementById("score");
+const timeDisplay = document.getElementById("time");
+const clickButton = document.getElementById("clickButton");
 
-    // increase counter
-    clickCount++;
+clickButton.addEventListener("click", function () {
+    if (gameActive) {
+        score++;
+        scoreDisplay.textContent = score;
+    }
+});
 
-    // update counter on page
-    document.getElementById("count").textContent = clickCount;
+function startGame() {
 
-    // change message text
-    document.getElementById("message").textContent = 
-        "You clicked the button! Keep clicking!";
+    score = 0;
+    timeLeft = 10;
+    gameActive = true;
 
-    // change background color randomly
-    const colors = ["#f4f6f9", "#d1f7c4", "#f9d1d1", "#d1e0ff", "#fff4cc"];
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    scoreDisplay.textContent = score;
+    timeDisplay.textContent = timeLeft;
 
-    document.body.style.backgroundColor = randomColor;
+    timer = setInterval(function () {
+        timeLeft--;
+        timeDisplay.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            gameActive = false;
+            alert("Game Over! Your score is: " + score);
+        }
+
+    }, 1000);
 }
